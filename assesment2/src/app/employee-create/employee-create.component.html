@@ -1,0 +1,220 @@
+<div class="container contwidth mt-5 "> 
+<h2 *ngIf="rowId === undefined || rowId === null">Create Employee</h2>
+<h2 *ngIf="rowId !== undefined && rowId !== null">Edit Employee</h2>
+
+  <!-- Employee Create Form -->
+  <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+    
+    <!-- First Name and Last Name -->
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="FirstName" class="form-label">First Name<span class="text-danger">*</span></label>
+        <input
+          type="text"
+          id="FirstName"
+          class="form-control"
+          formControlName="FirstName"
+          [class.is-invalid]="employeeForm.get('FirstName')?.invalid && employeeForm.get('FirstName')?.touched"
+        />
+        <div *ngIf="employeeForm.get('FirstName')?.invalid && employeeForm.get('FirstName')?.touched" class="invalid-feedback">
+          <div *ngIf="employeeForm.get('FirstName')?.hasError('required')">First Name is required.</div>
+          <div *ngIf="employeeForm.get('FirstoName')?.hasError('pattern')">First Name should only contain letters.</div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <label for="lastName" class="form-label">Last Name</label>
+        <input
+          type="text"
+          id="lastName"
+          class="form-control"
+          formControlName="lastName"
+          [class.is-invalid]="employeeForm.get('lastName')?.invalid && employeeForm.get('lastName')?.touched"
+        />
+        <div *ngIf="employeeForm.get('lastName')?.invalid && employeeForm.get('lastName')?.touched" class="invalid-feedback">
+          <div *ngIf="employeeForm.get('lastName')?.hasError('required')">Last Name is required.</div>
+          <div *ngIf="employeeForm.get('lastName')?.hasError('pattern')">Last Name should only contain letters.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Country and State -->
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="countryId" class="form-label">Country<span class="text-danger">*</span></label>
+        <select class="form-control" formControlName="countryId" id="countryId" (change)="onCountryChange($event)">
+          <option value="" disabled>Select a country</option>
+          <option *ngFor="let country of countries" [value]="country.rowId">{{country.countryName}}</option>
+        </select>
+        <div *ngIf="employeeForm.get('countryId')?.invalid && employeeForm.get('countryId')?.touched" class="invalid-feedback">
+          <div *ngIf="employeeForm.get('countryId')?.hasError('required')">Country selection is required.</div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <label for="stateId" class="form-label">State<span class="text-danger">*</span></label>
+        <select class="form-control" formControlName="stateId" id="stateId" (change)="onStateChange($event)">
+          <option *ngFor="let state of states" [value]="state.rowId">{{state.stateName}}</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- City and Email -->
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="cityId" class="form-label">City<span class="text-danger">*</span></label>
+        <select class="form-control" formControlName="cityId" id="cityId">
+          <option *ngFor="let city of cities" [value]="city.rowId">{{city.cityName}}</option>
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label for="emailAddress" class="form-label">Email<span class="text-danger">*</span></label>
+        <input
+          type="email"
+          id="emailAddress"
+          class="form-control"
+          formControlName="emailAddress"
+          [class.is-invalid]="employeeForm.get('emailAddress')?.invalid && employeeForm.get('emailAddress')?.touched"
+        />
+        <div *ngIf="employeeForm.get('emailAddress')?.invalid && employeeForm.get('emailAddress')?.touched" class="invalid-feedback">
+          <div *ngIf="employeeForm.get('emailAddress')?.hasError('required')">Email is required.</div>
+          <div *ngIf="employeeForm.get('emailAddress')?.hasError('email')">Please enter a valid email address.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Number and PAN Number -->
+ 
+<div class="row mb-3">
+  <div class="col-md-6">
+    <label for="mobileNumber" class="form-label">Mobile Number<span class="text-danger">*</span></label>
+    <input
+      type="text"
+      id="mobileNumber"
+      class="form-control"
+      formControlName="mobileNumber"
+      maxlength="10"
+      [class.is-invalid]="employeeForm.get('mobileNumber')?.invalid && employeeForm.get('mobileNumber')?.touched"
+      pattern="^[0-9]{10}$" 
+      (keypress)="($event.charCode >= 48 && $event.charCode <= 57) || $event.preventDefault()"
+    />
+    <div *ngIf="employeeForm.get('mobileNumber')?.invalid && employeeForm.get('mobileNumber')?.touched" class="invalid-feedback">
+      <div *ngIf="employeeForm.get('mobileNumber')?.hasError('required')">Mobile Number is required.</div>
+      <div *ngIf="employeeForm.get('mobileNumber')?.hasError('pattern')">Mobile Number should be 10 digits.</div>
+      <div *ngIf="employeeForm.get('mobileNumber')?.hasError('maxlength')">Mobile Number cannot exceed 10 characters.</div>
+    </div>
+  </div>
+  
+  <div class="col-md-6">
+    <label for="panNumber" class="form-label">Pan Number<span class="text-danger">*</span></label>
+    <input
+      type="text"
+      id="panNumber"
+      class="form-control"
+      formControlName="panNumber"
+      maxlength="10"  
+      [class.is-invalid]="employeeForm.get('panNumber')?.invalid && employeeForm.get('panNumber')?.touched"
+      (input)="onInputUppercase($event, 'panNumber')"
+    />
+    <div *ngIf="employeeForm.get('panNumber')?.invalid && employeeForm.get('panNumber')?.touched" class="invalid-feedback">
+      <div *ngIf="employeeForm.get('panNumber')?.hasError('required')">Pan Number is required.</div>
+      <div *ngIf="employeeForm.get('panNumber')?.hasError('maxlength')">Pan Number  cannot exceed 10 characters.</div>
+    </div>
+  </div>
+</div>
+
+
+    <!-- Passport Number and Profile Image -->
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="passportNumber" class="form-label">Passport Number<span class="text-danger">*</span></label>
+        <input
+          type="text"
+          id="passportNumber"
+          class="form-control"
+          formControlName="passportNumber"
+          maxlength="10"  
+          [class.is-invalid]="employeeForm.get('passportNumber')?.invalid && employeeForm.get('passportNumber')?.touched"
+          (input)="onInputUppercase($event, 'passportNumber')"
+        />
+        <div *ngIf="employeeForm.get('passportNumber')?.invalid && employeeForm.get('passportNumber')?.touched" class="invalid-feedback">
+          <div *ngIf="employeeForm.get('passportNumber')?.hasError('required')">Passport Number is required.</div>
+          <div *ngIf="employeeForm.get('passportNumber')?.hasError('maxlength')">Passport Number cannot exceed 10 characters.</div>
+      
+        </div>
+      </div>
+
+
+
+      
+
+    <!-- Date of Joining -->
+    <div class="col-md-6">
+      <label for="dateOfJoinee" class="form-label">Date of Joining<span class="text-danger">*</span></label>
+      <input type="date" id="dateOfJoinee" class="form-control" formControlName="dateOfJoinee" [attr.max]="todayDate" [attr.min]="minDateForJoinee" />
+      <div *ngIf="employeeForm.get('dateOfJoinee')?.invalid && employeeForm.get('dateOfJoinee')?.touched" class="invalid-feedback">
+        <div *ngIf="employeeForm.get('dateOfJoinee')?.hasError('required')">Date of Joining is required.</div>
+        <div *ngIf="employeeForm.get('dateOfJoinee')?.hasError('ageInvalid')">Employee must be at least 18 years old to join.</div>
+      </div>
+    </div>
+    </div>
+
+    <!-- Gender and Date of Birth -->
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="gender" class="form-label">Gender<span class="text-danger">*</span></label>
+       
+          <select class="form-control" formControlName="gender" id="gender">
+            <option *ngFor="let gender of genders" [value]="gender.genderId">{{gender.description}}</option>
+          </select>
+      
+      </div>
+
+      <div class="col-md-6">
+        <label for="dateOfBirth" class="form-label">Date of Birth<span class="text-danger">*</span></label>
+        <input type="date" id="dateOfBirth" class="form-control" formControlName="dateOfBirth" [attr.max]="maxDate" (change)="onDateOfBirthChange()" />
+        <div *ngIf="employeeForm.get('dateOfBirth')?.invalid && employeeForm.get('dateOfBirth')?.touched" class="invalid-feedback">
+          <div *ngIf="employeeForm.get('dateOfBirth')?.hasError('required')">Date of Birth is required.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Date of Joining and Active -->
+    <div class="row mb-3">
+
+      <div class="col-md-6">
+        <label for="profileImage" class="form-label m-1">Profile Image</label>
+        <input
+          type="file"
+          id="profileImage"
+          class="form-control"
+          formControlName="profileImage"
+          (change)="onFileSelected($event)"
+          accept="image/*" 
+        />
+      </div>
+
+
+
+      <div class="col-md-6">
+        <div class="form-check">
+          <input
+            type="checkbox"
+            id="isActive"
+            class="form-check-input"
+            formControlName="isActive"
+          />
+          <label class="form-check-label" for="isActive">Active</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <button type="submit" class="btn  w-100">Submit</button>
+      </div>
+    </div>
+  </form>
+</div>

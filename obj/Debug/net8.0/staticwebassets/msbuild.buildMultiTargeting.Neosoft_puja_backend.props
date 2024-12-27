@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Neosoft_puja_backend.props" />
+</Project>

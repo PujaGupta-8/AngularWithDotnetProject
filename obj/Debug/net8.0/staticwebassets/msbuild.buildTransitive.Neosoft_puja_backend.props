@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\Neosoft_puja_backend.props" />
+</Project>
